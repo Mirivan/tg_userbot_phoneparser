@@ -12,7 +12,7 @@ from sqlalchemy import Column, Integer, String
 
 DB_URI = ''
 session = ''
-api_id = 
+api_id = None
 api_hash = ''
 
 def start() -> scoped_session:
