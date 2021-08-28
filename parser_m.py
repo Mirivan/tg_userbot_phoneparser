@@ -107,7 +107,7 @@ async def putparsed(msg):
                     updph(user.id, phone)
     await msg.edit('`parsed`')
 
-@client.on(newMsg(pattern='\.uid', only_me=True))
+@client.on(newMsg(pattern='\.uid$', only_me=True))
 async def check_user(msg):
     if msg.is_reply:
         reply = await msg.get_reply_message()
