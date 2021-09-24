@@ -56,7 +56,10 @@ Database.__table__.create(checkfirst=True)
 
 def get_state(user_id):
     try:
-        return SESSION.query(Database).get(user_id)
+        pattern = return SESSION.query(Database).get(user_id)
+        if pattern:
+            return True
+        return False
     finally:
         SESSION.close()
 
@@ -95,7 +98,7 @@ async def putparsed(msg):
         if not user.deleted:
             username = user.username if user.username else None
             phone = user.phone if user.phone else None
-            if not user.id in get_state(user.id):
+            if not get_state(user.id):
                 addnew(user.id, username, phone)
             else:
                 if username != get_state(user.id).username:
