@@ -38,10 +38,7 @@ client = TelegramClient(session, api_id, api_hash)
 me = client.get_me()
 
 def newMsg(**args):
-    only_me = args.get("only_me", False)
-    if only_me:
-        args["from_users"] = 'me'
-        del args["only_me"]
+    args["from_users"] = 'me'
     return events.NewMessage(**args)
 
 class Database(BASE):
@@ -78,7 +75,7 @@ def updph(user_id, phone):
     upd.phone = phone
     SESSION.commit()
 
-@client.on(newMsg(pattern='\.parse ?(.*)', only_me=True))
+@client.on(newMsg(pattern='\.parse ?(.*)'))
 async def putparsed(msg):
     target = msg.pattern_match.group(1)
     if target:
@@ -107,7 +104,7 @@ async def putparsed(msg):
                     updph(user.id, phone)
     await msg.edit('`parsed`')
 
-@client.on(newMsg(pattern='\.uid$', only_me=True))
+@client.on(newMsg(pattern='\.uid$'))
 async def check_user(msg):
     if msg.is_reply:
         reply = await msg.get_reply_message()
@@ -118,7 +115,7 @@ async def check_user(msg):
             db = "\nUser in the database"
         await msg.edit(f'User ID is equal: `{id}`{db}')
 
-@client.on(newMsg(pattern='\.index ?(.*)', only_me=True))
+@client.on(newMsg(pattern='\.index ?(.*)'))
 async def index(msg):
     i = msg.pattern_match.group(1)
     if i: id = i
