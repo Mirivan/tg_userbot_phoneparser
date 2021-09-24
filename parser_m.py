@@ -58,7 +58,7 @@ def get_state(user_id):
     try:
         pattern = return SESSION.query(Database).get(user_id)
         if pattern:
-            return True
+            return pattern
         return False
     finally:
         SESSION.close()
